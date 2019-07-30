@@ -25,6 +25,34 @@ def isValidMove(x, y):
   else:
     return False
 
+def isGameOver():
+  winning_conditions = (
+    ((0,0), (0,1), (0,2)),
+    ((1,0), (1,1), (1,2)),
+    ((2,0), (2,1), (2,2)),
+    ((0,0), (1,0), (2,0)),
+    ((0,1), (1,1), (2,1)),
+    ((0,2), (1,2), (2,2)),
+    ((0,0), (1,1), (2,2)),
+    ((0,2), (1,1), (2,0)),
+  )
+
+  for condition in winning_conditions:
+    a = condition[0]
+    b = condition[1]
+    c = condition[2]
+
+    A = board[a[0]][a[1]]
+    B = board[b[0]][b[1]]
+    C = board[c[0]][c[1]]
+
+    if A == "X" or A == "O":
+      if A == B and B == C:
+        return True
+    else:
+      continue
+  return False
+
 while game_over is False:
   player_id = 0
   if player_one_turn is True:
@@ -46,4 +74,8 @@ while game_over is False:
   else:
     updateBoard(x, y, player_two_character)
   input("Press any key to pass turn to next player! ")
+  if isGameOver():
+    print("Player {} won!".format(player_id))
+    printBoard()
+    break
   player_one_turn = not player_one_turn
